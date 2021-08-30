@@ -13,7 +13,8 @@ class IndexModel:
         
         #importing dataset
         try:
-            data=pd.read_csv("/Assessment-Index-Modelling/data_sources/stock_prices.csv")
+            wd=os.getcwd()
+            data=pd.read_csv(wd+"/Assessment-Index-Modelling/data_sources/stock_prices.csv")
             data.insert(1,"Datetime", self.date_transform(data.iloc[:,0]))
             self.data=data
         except: 
