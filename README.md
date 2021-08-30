@@ -1,54 +1,9 @@
-# Assessment Index Modelling
+# Solution to Coding Challange
 
-This Code Assessment simulates the scenario of building an index model based on a given guideline. 
-The rules provided below describe a simple stock index and for this assessment the objective is to 
-build a model that can calculate such index values.
+Business Logic:
 
-The idea is not only that you can show us what you've got, but also that you can get a first impression 
-of what it means to build an index model.
+The solution starts by initializing the dataset and inserting a datetime column in order to easily use timestamps. It then chooses the starting index portfolio based on the prices recorded on 31/12/2019. The chosen stocks and corresponding index value are both recorded for later use.
 
-The required input prices can be found at `data_sources\stock_prices.csv`. 
+To calculate the rest of the index values, the code uses a for loop to iterate across all the dates. The code checks if there is a change in the datetime month value at each row. If the month value is the same, then it simply calculates the new index value by using a dot product between chosen stock prices and the specified weights. The calculated index value is appended to an array that will be used in the end to aggregate all the index values. Alternatively, if there is a change in the datetime month value, then the code recalibrates the index portfolio. To do so, it starts out by calculating the current index portfolio value and also by choosing the top performing stocks based on the last closing date of the month before. Then, we basically update the portfolio weights by allocating the specified portfolio distribution (50%, 25%, 25%) according to how large our index portfolio currently is. The index value is recorded and the new weights/parameters are updated for use at the next loop.
 
-You can also find the correct (rounded) index level at `data_sources\index_level_results_rounded.csv`. 
-Please note these values cannot be used as an input but solely act as a reference for you to verify 
-your model. For the evaluation of your model we will use the high precision index values your model 
-calculates.
-
-
-# Index Notes
-
-- The index is a stock index made up of imaginary stocks. 
-- There are no further corporate actions to consider here 
-- The index doesn't resemble any real existing index.
-- The model should be able to calculate the index levels based on the rules below.
-- All provided prices are total return. 
-- All companies got the same amount of shares outstanding.
-
-
-# Index Rules
-
-- The index is a total return index.
-- The index universe consists of all stocks from "Stock_A" to including "Stock_J".
-- Every first business day of a month the index selects from the universe the top three stocks based on their market capitalization, 
-  based on the close of business values as of the last business day of the immediately preceding month.
-- The selected stock with the highest market capitalization gets assigned a 50% weight, while the second and third each 
-  get assigned 25%.
-- The selection becomes effective close of business on the first business date of each month.
-- The index starts with a level of 100.
-- The index start date is January 1st 2020.
-- The index business days are Monday to Friday.
-- There are no additional holidays.
-
-# Setup
-We've already provided a `__main__.py` for this project and there should be no need for you to modify it. 
-As you will see the main file expects an index model which can be found at `index_model/index.py`. 
-This is the model we expect you to build. It should then ultimately be able to export the 
-calculated values to a csv file. 
-
-If you want to use additional packages feel free to do so. The actual business logic must be part of 
-your repo, but we actively encourage you to use packages that you're already familiar 
-with. Please make sure to update the requirements.txt file accordingly.
-
-# Submission
-We are happy to see your project. If not already agreed otherwise, please send us your project 
-as a link to your GitHub repo via mail to jobs@solactive.com. 
+In the end, the code creates a csv output based on the created dataframe.
